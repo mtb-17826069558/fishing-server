@@ -10,6 +10,7 @@ const catchCtrl = require("../controllers/catch");
 const commentCtrl = require("../controllers/comment");
 const roleCtrl = require("../controllers/role");
 const userCtrl = require("../controllers/user");
+const permissionCtrl = require("../controllers/permission");
 
 module.exports = (router) => {
   /**
@@ -648,4 +649,46 @@ module.exports = (router) => {
    *         description: 禁用成功
    */
   router.post("/api/user/:id/disable", auth, admin, userCtrl.disable);
+
+  /**
+   * @swagger
+   * /api/permissions:
+   *   get:
+   *     tags: [权限管理]
+   *     summary: 获取所有权限列表
+   *     security:
+   *       - bearerAuth: []
+   *     responses:
+   *       200:
+   *         description: 获取成功
+   */
+  router.get("/api/permissions", auth, permissionCtrl.list);
+
+  /**
+   * @swagger
+   * /api/roles:
+   *   get:
+   *     tags: [权限管理]
+   *     summary: 获取所有角色列表
+   *     security:
+   *       - bearerAuth: []
+   *     responses:
+   *       200:
+   *         description: 获取成功
+   */
+  router.get("/api/roles", auth, permissionCtrl.roles);
+
+  /**
+   * @swagger
+   * /api/my-permissions:
+   *   get:
+   *     tags: [权限管理]
+   *     summary: 获取当前用户权限
+   *     security:
+   *       - bearerAuth: []
+   *     responses:
+   *       200:
+   *         description: 获取成功
+   */
+  router.get("/api/my-permissions", auth, permissionCtrl.userPermissions);
 };
